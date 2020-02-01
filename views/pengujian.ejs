@@ -1,0 +1,83 @@
+<!-- views/index.ejs -->
+
+<!-- header -->
+<%- include ('partials/Header') %>
+
+<body>
+<!-- menu -->
+<%- include ('partials/menu') %>
+
+    <div class="container content-area">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel">
+                    <div class="card-header m-b-15">
+                        <h4>Pengujian Kemiripan Dokumen</h4>
+                    </div>
+
+                    <div class="card p-5">
+                        <h5 class="mb-3">Input Dokumen: </h5>
+
+                        <form id="upload-dokumen">
+                            <div class="form-group">
+                                <label for="dokumen-uji">Dokumen uji</label>
+                                <input id="dokumen-uji" name="files" type="file" class="form-control-file mb-1">
+
+                                <div id="dokumen-uji-info" class="card px-3"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="dokumen-pembanding">Dokumen pembanding</label>
+                                <input id="dokumen-pembanding" name="files" type="file" class="form-control-file">
+
+                                <div id="dokumen-pembanding-info" class="card px-3"></div>
+                            </div> 
+
+                            <div class="card-footer">
+                                <a id="attach-dokumen" href="javascript:void(0)" class="btn btn-primary">Attach</a>
+                            </div>
+                            <span>(*) Dokumen yg bisa diuji dengan format .pdf .doc .docx dan bukan hasil scan atau berupa gambar.</span>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- footer -->
+<%- include ('partials/script') %>
+
+<script>
+    (function() {
+        var attachDokumen = $("#attach-dokumen");
+
+        attachDokumen.on("click",function() {
+            event.preventDefault();
+            var form = $("#upload-dokumen")[0];
+            var data = new FormData(form);
+
+            $.ajax({
+                type: "post",
+                enctype: 'multipart/form-data',
+                url: "/uploads",
+                data: data,
+                processData: false,
+                contentType: false,
+                cache: false,
+                timeout: 600000,
+                beforeSend: function() {
+                    
+                },
+                success: function(response) {
+                    console.log(response)
+                },
+                error: function(error) {
+                    console.log(error)
+                }
+            });
+        });
+    })()
+</script>
+</body>
+</html>
